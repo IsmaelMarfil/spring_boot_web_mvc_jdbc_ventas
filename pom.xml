@@ -15,6 +15,7 @@
 	<properties>
 		<!-- mínima versión de java con spring boot 3 -->
 		<java.version>17</java.version>
+<!--		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
 	</properties>
 	<dependencies>
 
@@ -78,6 +79,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
+		</dependency>
+
+
 		<!-- añadimos lombok para mayor simplificación del código -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -91,17 +99,14 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
+		<finalName>spring_boot_web_mvc_jdbc_ventas</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<!-- incluir cuando tarea mvn build:
-				<excludeDevtools>true</excludeDevtools> -->
 					<excludes>
-						<!-- se excluye la dependencia de lombok de la tarea mvn build-->
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
