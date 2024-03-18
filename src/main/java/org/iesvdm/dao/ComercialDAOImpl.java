@@ -121,7 +121,7 @@ public class ComercialDAOImpl implements ComercialDAO {
 														nombre = ?, 
 														apellido1 = ?, 
 														apellido2 = ?,
-														comisión = ?,
+														comisión = ?
 												WHERE id = ?
 										"""
 				, comercial.getNombre()

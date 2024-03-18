@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.iesvdm.dao.ClienteDAO;
 import org.iesvdm.dao.ComercialDAO;
 import org.iesvdm.modelo.Cliente;
+import org.iesvdm.modelo.Comercial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,11 +35,11 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 
 		clienteDAO.getAll().forEach(c -> log.info("Cliente: {}", c));
 
-		int id = 1;
-		Optional<Cliente> cliente = clienteDAO.find(id);
+		int id1 = 1;
+		Optional<Cliente> cliente = clienteDAO.find(id1);
 
 		if (cliente.isPresent()) {
-			log.info("Cliente {}: {}", id, cliente.get());
+			log.info("Cliente {}: {}", id1, cliente.get());
 
 			String nombreOld = cliente.get().getNombre();
 
@@ -46,9 +47,9 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 
 			clienteDAO.update(cliente.get());
 
-			cliente = clienteDAO.find(id);
+			cliente = clienteDAO.find(id1);
 
-			log.info("Cliente {}: {}", id, cliente.get());
+			log.info("Cliente {}: {}", id1, cliente.get());
 
 			//Volvemos a cargar el nombre antiguo..
 			cliente.get().setNombre(nombreOld);
@@ -75,7 +76,55 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 		log.info("*FIN: Prueba de arranque ClienteDAO*");
 		log.info("************************************");
 
+		log.info("*******************************");
+		log.info("*Prueba de arranque ComercialDAO*");
+		log.info("*******************************");
+
+		comercialDAO.getAll().forEach(com -> log.info("Comercial: {}", com));
+
+		int id2 = 1;
+		Optional<Comercial> comercial = comercialDAO.find(id2);
+
+		if (comercial.isPresent()) {
+			log.info("Comercial {}: {}", id2, comercial.get());
+
+			String nombreOld = comercial.get().getNombre();
+
+			comercial.get().setNombre("Jose M");
+
+			comercialDAO.update(comercial.get());
+
+			comercial = comercialDAO.find(id2);
+
+			log.info("Comercial {}: {}", id2, comercial.get());
+
+			//Volvemos a cargar el nombre antiguo..
+			comercial.get().setNombre(nombreOld);
+			comercialDAO.update(comercial.get());
+
+		}
+
+		// Como es un cliente nuevo a persistir, id a 0
+		Comercial comercialNew = new Comercial(0, "Jose M", "Martín", "Lopez", 0.1f);
+
+		//create actualiza el id
+		comercialDAO.create(comercialNew);
+
+		log.info("Comercial nuevo con id = {}", comercialNew.getId());
+
+		comercialDAO.getAll().forEach(com -> log.info("Comercial: {}", com));
+
+		//borrando por el id obtenido de create
+		comercialDAO.delete(comercialNew.getId());
+
+		comercialDAO.getAll().forEach(com -> log.info("Comercial: {}", com));
+
+		log.info("************************************");
+		log.info("*FIN: Prueba de arranque ComercialDAO*");
+		log.info("************************************");
+
 
 	}
+
 
 }
